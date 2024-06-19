@@ -51,17 +51,106 @@ function event_click_changeChkedObj() {
         if (!!$(this).hasClass('unable')) {
             return false;
         }
+        let _allowChkedThreeDimension;
         if (checkedObj[_position].outside == _shape) {
             checkedObj[_position].outside = '';
+            _allowChkedThreeDimension = setThreeDimensionState('');
             $(`.threeDimensionList[data-position="${_position}"] .threeDimension[data-graphic="${_shape}"]`).removeClass('selected');
+            //console.log(_allowChkedThreeDimension);
         }
         else {
             checkedObj[_position].outside = _shape;
+            _allowChkedThreeDimension = setThreeDimensionState(_shape);
             $(`.threeDimensionList[data-position="${_position}"] .threeDimension`).removeClass('selected');
             $(`.threeDimensionList[data-position="${_position}"] .threeDimension[data-graphic="${_shape}"]`).addClass('selected');
+            //console.log(_allowChkedThreeDimension);
+
+        }
+        $(`.threeDimensionList .threeDimension`).not('.selected').not('.unable').addClass('unable');
+        console.log(_allowChkedThreeDimension);
+        for (var item of _allowChkedThreeDimension) {
+            $(`.threeDimensionList .threeDimension[data-graphic="${item}"]`).removeClass('unable');
         }
         calculator();
     })
+}
+
+function setThreeDimensionState(threeDimension) {
+    let standardTwoDimensionList = ['circle', 'circle', 'square', 'square', 'triangle', 'triangle'];
+    const threeDimension_twoDimension_Mapping = {   //三维与二维图形映射
+        sphere: ['circle', 'circle'],
+        cylinder: ['circle', 'square'],
+        cone: ['circle', 'triangle'],
+        cube: ['square', 'square'],
+        prism: ['triangle', 'square'],
+        pyramid: ['triangle', 'triangle'],
+    };
+    let shapes_exists = [];
+    for (var item in checkedObj) {
+        if (checkedObj[item].outside != '') {
+            shapes_exists = shapes_exists.concat(returnOutsideMappingTwoDimension(checkedObj[item].outside));
+        }
+    }
+    shapes_exists.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+
+    //const _twoDimension = returnOutsideMappingTwoDimension(threeDimension);
+    //shapes_exists = shapes_exists.concat(_twoDimension);
+    let standardTwoDimension_remains = [];
+    if (!isArrayEqual(standardTwoDimensionList, shapes_exists)) {
+        //只需要删除一次
+        let x = 0;
+        while (x < standardTwoDimensionList.length) {
+            let y = 0;
+            while (y < shapes_exists.length) {
+                if (standardTwoDimensionList[x] == shapes_exists[y]) {
+                    standardTwoDimensionList.splice(x, 1);
+                    shapes_exists.splice(y, 1);
+                }
+                else {
+                    y++;
+                }
+            }
+            x++;
+        }
+        //standardTwoDimensionList = standardTwoDimensionList.filter(item => !shapes_exists.includes(item));
+         standardTwoDimension_remains = standardTwoDimensionList;
+    }
+    let _allowChkedThreeDimension = [];
+    for (var i = 0; i < standardTwoDimension_remains.length; i++) {
+        for (var j = i + 1; j < standardTwoDimension_remains.length; j++) {
+            const _shapes = [standardTwoDimension_remains[i], standardTwoDimension_remains[j]];
+            //console.log(_shapes);
+            for (var item in threeDimension_twoDimension_Mapping) {
+                if (isArrayEqual(threeDimension_twoDimension_Mapping[item], _shapes)){
+                    _allowChkedThreeDimension.push(item);
+                    continue;
+                }
+            }
+        }
+    }
+    return Array.from(new Set(_allowChkedThreeDimension));
+
+}
+
+
+function isArrayEqual(arr1, arr2) {
+    const a1 = arr1.map((i) => i)
+    let a2 = arr2.map((i) => i)
+    let tempArr = []
+    if (a1.length !== a2.length) {
+        return false
+    } else {
+        for (let i = 0; i < a1.length; i++) {
+            if (a2.indexOf(a1[i]) !== -1) {
+                a2.splice(a2.indexOf(a1[i]), 1)
+                tempArr.push(a1[i])
+            } else {
+                tempArr = []
+                break
+            }
+        }
+        return tempArr.length === arr2.length
+    }
 }
 
 function calculator() {
@@ -137,7 +226,7 @@ function returnInsideNeedsTwoDimension(insideTwoDimension) {
  * @returns
  */
 function returnOutsideMappingTwoDimension(outsideThreeDimension) {
-    const threeDimension_twoDimension_Mapping = {   //三维与二维图形映射
+    const _threeDimension_twoDimension_Mapping = {   //三维与二维图形映射
         sphere: ['circle', 'circle'],
         cylinder: ['circle', 'square'],
         cone: ['circle', 'triangle'],
@@ -145,7 +234,11 @@ function returnOutsideMappingTwoDimension(outsideThreeDimension) {
         prism: ['triangle', 'square'],
         pyramid: ['triangle', 'triangle'],
     };
-    return threeDimension_twoDimension_Mapping[outsideThreeDimension];
+
+    if (outsideThreeDimension == '') {
+        return [];
+    }
+    return _threeDimension_twoDimension_Mapping[outsideThreeDimension];
 }
 
 /**
