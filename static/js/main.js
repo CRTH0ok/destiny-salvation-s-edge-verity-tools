@@ -21,34 +21,6 @@ let checkedObj = {
 
 $(window).on('load', () => {
     event_click_changeChkedObj();
-    //checkedObj = {
-    //    left: {
-    //        inside: 'circle',
-    //        outside: 'sphere',
-    //    },
-    //    middle: {
-    //        inside: 'square',
-    //        outside: 'cube',
-    //    },
-    //    right: {
-    //        inside: 'triangle',
-    //        outside: 'pyramid',
-    //    }
-    //}
-    //checkedObj = {
-    //    left: {
-    //        inside: 'circle',
-    //        outside: 'cube',
-    //    },
-    //    middle: {
-    //        inside: 'square',
-    //        outside: 'pyramid',
-    //    },
-    //    right: {
-    //        inside: 'triangle',
-    //        outside: 'sphere',
-    //    }
-    //}
     calculator();
 })
 
@@ -76,7 +48,6 @@ function event_click_changeChkedObj() {
     $('.threeDimension').on('click', function () {
         const _position = $(this).parent().attr('data-position');
         const _shape = $(this).attr('data-graphic');
-        console.log(_position, _shape);
         if (!!$(this).hasClass('unable')) {
             return false;
         }
@@ -135,7 +106,7 @@ function calculator() {
                         if (displaceGraphical[j].length != 0) {
                             const _index = displaceGraphical[j].indexOf(target[i][i_i]);
                             if (_index > -1 && displaceGraphical[i][i_i] !== displaceGraphical[j][_index]) {
-                                stepOptStr += `<br/>第${++stepNum}步： 将${_positionDesc[i]}的${_graphicalDesc[displaceGraphical[i][i_i]]}与${_positionDesc[j]}的${_graphicalDesc[displaceGraphical[j][_index]]}交换`
+                                stepOptStr += `<br/>第${++stepNum}步： ${_positionDesc[i]}塞入${_graphicalDesc[displaceGraphical[i][i_i]]}，${_positionDesc[j]}塞入${_graphicalDesc[displaceGraphical[j][_index]]}；`
                                 displaceGraphical[j][_index] = displaceGraphical[i][i_i];
                                 displaceGraphical[i][i_i] = target[i][i_i];
                             }
