@@ -1,0 +1,102 @@
+﻿html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+}
+
+.flex-column-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-row-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.graphicsPannel {
+    height: calc(100% - 300px);
+    width: 100%;
+}
+
+    .graphicsPannel .graphicsPannel-item {
+        width: 34%;
+        height: 100%;
+    }
+
+        .graphicsPannel .graphicsPannel-item .graphicsPannel-item-top {
+            height: 10%;
+            width: 100%;
+        }
+
+        .graphicsPannel .graphicsPannel-item .graphicsPannel-item-middle {
+            height: 30%;
+            width: 100%;
+        }
+
+        .graphicsPannel .graphicsPannel-item .graphicsPannel-item-bottom {
+            height: 60%;
+            width: 100%
+        }
+
+        .graphicsPannel .graphicsPannel-item .threeDimensionList {
+            height: 80%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+            .graphicsPannel .graphicsPannel-item .threeDimensionList .threeDimension {
+                height: 50%;
+                width: 33%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+        .graphicsPannel .graphicsPannel-item .twoDimensionList {
+            height: 80%;
+            width: 100%;
+        }
+
+            .graphicsPannel .graphicsPannel-item .twoDimensionList .twoDimension {
+                height: 100%;
+                width: 34%
+            }
+
+.sideEdge {
+    border-left: .3rem solid #000;
+}
+
+.selectable {
+    justify-items: center;
+    display: grid;
+    cursor: pointer;
+}
+
+.unable {
+    cursor: not-allowed;
+    filter: invert(.5) sepia(80) saturate(0) hue-rotate(15deg);
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* 标准语法 */
+}
+
+.selected {
+    filter: brightness(2.3) saturate(3.6) invert(.5) sepia(80) saturate(45) hue-rotate(197deg) drop-shadow(0px 0px 5px #048bff);
+}
+
+.sideEdgeTop {
+    border-top: .1rem solid #000;
+}
+
+.itemSelected {
+    filter: invert(.5) sepia(80) saturate(45) hue-rotate(15deg);
+}
