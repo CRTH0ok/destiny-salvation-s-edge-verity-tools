@@ -3,8 +3,9 @@
     "",
     "\\static",
     "\\static\\css",
+    "\\static\\image",
     "\\static\\js"
   ],
-  "SelectedNode": "\\static\\js\\main.js",
+  "SelectedNode": "\\static\\image\\pyramid.svg",
   "PreviewInSolutionExplorer": false
 }
