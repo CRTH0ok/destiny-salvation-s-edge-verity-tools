@@ -68,7 +68,7 @@ function event_click_changeChkedObj() {
 
         }
         $(`.threeDimensionList .threeDimension`).not('.selected').not('.unable').addClass('unable');
-        console.log(_allowChkedThreeDimension);
+        //console.log(_allowChkedThreeDimension);
         for (var item of _allowChkedThreeDimension) {
             $(`.threeDimensionList .threeDimension[data-graphic="${item}"]`).removeClass('unable');
         }
@@ -114,7 +114,7 @@ function setThreeDimensionState(threeDimension) {
             x++;
         }
         //standardTwoDimensionList = standardTwoDimensionList.filter(item => !shapes_exists.includes(item));
-         standardTwoDimension_remains = standardTwoDimensionList;
+        standardTwoDimension_remains = standardTwoDimensionList;
     }
     let _allowChkedThreeDimension = [];
     for (var i = 0; i < standardTwoDimension_remains.length; i++) {
@@ -122,7 +122,7 @@ function setThreeDimensionState(threeDimension) {
             const _shapes = [standardTwoDimension_remains[i], standardTwoDimension_remains[j]];
             //console.log(_shapes);
             for (var item in threeDimension_twoDimension_Mapping) {
-                if (isArrayEqual(threeDimension_twoDimension_Mapping[item], _shapes)){
+                if (isArrayEqual(threeDimension_twoDimension_Mapping[item], _shapes)) {
                     _allowChkedThreeDimension.push(item);
                     continue;
                 }
@@ -189,13 +189,21 @@ function calculator() {
         }
         let stepNum = 0;
         for (var i = 0; i < displaceGraphical.length; i++) {
+            //优先级排序，需要的图形往后排
+            for (var index = 0; index < displaceGraphical.length; index++) {
+                if (displaceGraphical[index][0] == target[index][0] ||
+                    displaceGraphical[index][0] == target[index][1]) {
+                    displaceGraphical[index] = [displaceGraphical[index][1], displaceGraphical[index][0]];
+                }
+            }
             //需要置换
             if (displaceGraphical[i].length != 0) {
                 for (var i_i = 0; i_i < displaceGraphical[i].length; i_i++) {
                     for (var j = i + 1; j < displaceGraphical.length; j++) {
+                        //displaceGraphical[i] = ;
                         if (displaceGraphical[j].length != 0) {
                             const _index = displaceGraphical[j].indexOf(target[i][i_i]);
-                            if (_index > -1 && displaceGraphical[i][i_i] !== displaceGraphical[j][_index]) {
+                            if (_index > -1 && !displaceGraphical[i].includes(target[i][i_i])  && displaceGraphical[i][i_i] !== displaceGraphical[j][_index]) {
                                 stepOptStr += `<br/>第${++stepNum}步： ${_positionDesc[i]}塞入${_graphicalDesc[displaceGraphical[i][i_i]]}，${_positionDesc[j]}塞入${_graphicalDesc[displaceGraphical[j][_index]]}；`
                                 displaceGraphical[j][_index] = displaceGraphical[i][i_i];
                                 displaceGraphical[i][i_i] = target[i][i_i];
