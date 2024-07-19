@@ -22,6 +22,7 @@ let checkedObj = {
 $(window).on('load', () => {
     event_click_changeChkedObj();
     calculator();
+    event_click_reloadPage();
 })
 
 function event_click_changeChkedObj() {
@@ -264,4 +265,10 @@ function returnDisplaceGraphical(insideNeeds_2D, outsideMapping_2D) {
         i++
     }
     return ({ insideNeeds_2D_target: insideNeeds_2D, outsideMapping_2D_displaceGraphical: outsideMapping_2D });
+}
+
+function event_click_reloadPage() {
+    $('#btnReset').on('click', function () {
+        window.location.reload();
+    })
 }

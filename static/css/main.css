@@ -100,3 +100,15 @@
 .itemSelected {
     filter: invert(.5) sepia(80) saturate(45) hue-rotate(15deg);
 }
+
+.btn_CommStyle {
+    position: relative;
+    float: left;
+    margin-right: 20px;
+    width: 30px;
+    height: 30px;
+    background: #FFFFFF;
+    border-radius: 4px;
+    border: 1px solid #E4E9F2;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
